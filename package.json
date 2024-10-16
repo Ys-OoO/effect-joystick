@@ -1,0 +1,26 @@
+{
+  "name": "effect-joystick",
+  "version": "1.0.0",
+  "description": "Controller for special behaviors",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ys-OoO/effect-joystick"
+  },
+  "keywords": [
+    "parallex",
+    "scrolling",
+    "effect",
+    "joystick",
+    "effect-joystick"
+  ],
+  "author": "ys0514@yeah.net",
+  "license": "MIT",
+  "devDependencies": {
+    "rollup": "^4.24.0",
+    "typescript": "^5.6.3"
+  }
+}
