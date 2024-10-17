@@ -2,10 +2,8 @@
   "name": "effect-joystick",
   "version": "1.0.0",
   "description": "Controller for special behaviors",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "author": "ys0514@yeah.net",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Ys-OoO/effect-joystick"
@@ -17,10 +15,19 @@
     "joystick",
     "effect-joystick"
   ],
-  "author": "ys0514@yeah.net",
-  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "dev": "",
+    "build:example": "rollup -c rollup.example.config.mjs",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "eslint": "^9.12.0",
     "rollup": "^4.24.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-eslint": "^7.0.0",
     "typescript": "^5.6.3"
   }
 }
