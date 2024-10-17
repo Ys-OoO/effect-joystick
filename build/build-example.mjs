@@ -2,13 +2,14 @@ import commonjs from "@rollup/plugin-commonjs"; // 将导入的其他包从commo
 import resolve from "@rollup/plugin-node-resolve";
 import { rollup } from "rollup";
 import terser from "@rollup/plugin-terser";
+import eslint from '@rollup/plugin-eslint';
 
 async function build(opts) {
   let bundle;
   try {
     bundle = await rollup({
       input: opts.input,
-      plugins: [commonjs(), resolve(), terser()]
+      plugins: [eslint(), commonjs(), resolve(), terser()]
     });
 
     await bundle.write({
@@ -20,6 +21,6 @@ async function build(opts) {
 };
 
 build({
-  input: 'examples/pure-js/demo.js',
-  output: 'examples/pure-js/demo.min.js'
+  input: 'examples/demo/demo.js',
+  output: 'examples/demo/demo.min.js'
 });
