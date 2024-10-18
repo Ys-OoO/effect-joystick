@@ -1,14 +1,14 @@
 import type { CubicBezier } from "./scroll";
 
-const CubicBezierDefault :CubicBezier ={
+const cubicBezierDefault :CubicBezier ={
 	x1: 0,
 	y1: 0,
 	x2: 1,
 	y2: 1
 };
 
-export function transformCubicBezier(point: CubicBezier = CubicBezierDefault):string{
-	const controlPoint = { ...CubicBezierDefault, ...point };
+export function transformCubicBezier(point: CubicBezier = cubicBezierDefault):string{
+	const controlPoint = { ...cubicBezierDefault, ...point };
 	return `cubic-bezier(${controlPoint.x1}, ${controlPoint.y1}, ${controlPoint.x2}, ${controlPoint.y2})`;
 }
 
@@ -17,10 +17,10 @@ export function merge(target:object, sources:Array<object>){
 		const source = sources[i] || {};
 		for (const prop in source) {
 			if (source.hasOwnProperty(prop)) {
-				// const value = source[prop];
-				// if (value !== undefined) {
-				// 	target[prop] = value;
-				// }
+				const value = source[prop];
+				if (value !== undefined) {
+					target[prop] = value;
+				}
 			}
 		}
 	}
