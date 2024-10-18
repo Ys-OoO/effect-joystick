@@ -16,7 +16,8 @@ new Scroll("#wrap", {
 					"start": "#fd0",
 					"end": "#209b35"
 				} ]
-			}, {
+			}, 
+			{
 				"id": "text",
 				"effects": [ {
 					"property": "color",

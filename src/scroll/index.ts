@@ -1,32 +1,24 @@
-import { transformCubicBezier, walkNode } from "../utils";
+import { walkNode } from "../utils";
 import { defaultScrollConfig, defaultStageConfig } from "./constant";
 
-interface Effect {
+export type Effect = {
     property: string;
     start: string;
     end: string;
     startAt?: number;
     endAt?: number
 }
-interface Item {
+export type ItemConfig = {
     id: string;
     effects: Array<Effect>;
 }
-export interface StageConfig {
+export type StageConfig = {
     id: string;
     scrollNumber?: number;
     transition?: number;
     easing?: "ease" | "linear" | "ease-in" | "esae-out" | "ease-in-out" | CubicBezier;
-    items?: Array<Item>;
+    items?: Array<ItemConfig>;
 }
-interface Stage {
-	node: HTMLElement | ChildNode,
-	stageConfig: StageConfig,
-	id: StageConfig["id"],
-	step: number
-}
-type Stages = Array<Stage>;
-
 export type ScrollConfig = {
     stageSwitchTransition?: number,
     stageSwitchDelay?: number,
@@ -34,6 +26,20 @@ export type ScrollConfig = {
     disableAfterSwitching?: number,
     stages : StageConfig[]
 }
+
+interface Item extends ItemConfig {
+	node: HTMLElement | ChildNode,
+}
+interface Stage {
+	node: HTMLElement | ChildNode,
+	stageConfig: StageConfig,
+	id: StageConfig["id"],
+	step: number,
+	items?: Item[],
+}
+type Stages = Array<Stage>;
+
+
 export type CubicBezier = {
     x1?:number,
     y1?:number,
@@ -69,7 +75,6 @@ class Scroll {
 		this.activeStageIndex = 0;
 
 		this.initConfig(config);
-		console.log(this.config, this.stages);
 	}
 
 	initConfig(config: ScrollConfig): void{
@@ -91,10 +96,40 @@ class Scroll {
 					id: stageId,
 					step: 0
 				});
+				return false;
 			}
 		});
+		this.initItemsEffects();
 	}
 	
+	initItemsEffects(){
+		this.stages.forEach(stage => {
+			// walk Stage's node, init item's config
+			walkNode(stage.node, node => {
+				if (node.nodeType !== 1) return;
+				const itemId = (node as HTMLElement).getAttribute("data-scroll-item-id");
+				if (itemId){
+					for (let i = 0; i<this.config.stages.length; i++){
+						for (let j = 0; j<this.config.stages[i].items.length; j++){
+							const item = this.config.stages[i].items[j];
+							if (item.id = itemId){
+								if (!stage.items){
+									stage.items = [];
+								}
+								stage.items.push({
+									...this.config.stages[i].items[j],
+									node,
+								});
+								break;
+							}
+						}
+					}
+				}
+				return false;
+			});
+		});
+	}
+
 	getStage(id: string){
 		const stageConfig = this.config.stages;
 		for (let i = 0; i < stageConfig.length; i++){
