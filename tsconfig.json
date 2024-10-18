@@ -5,4 +5,8 @@
         "removeComments": true,
         "moduleResolution": "node"
     },
+    "include": [
+        "src/**/*.ts",
+        "examples/**/*.ts"
+    ]
 }
