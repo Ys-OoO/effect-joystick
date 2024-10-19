@@ -42,7 +42,6 @@
   },
   "dependencies": {
     "color": "^4.2.3",
-    "color-convert": "^2.0.1",
     "dom-walk": "^0.1.2",
     "throttle-debounce": "^5.0.2"
   }

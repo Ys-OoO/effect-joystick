@@ -21,11 +21,11 @@ export type StageConfig = {
     items?: Array<ItemConfig>;
 }
 export type ScrollConfig = {
-    stageSwitchTransition?: number,
-    stageSwitchDelay?: number,
-    stageSwitchEasing?: string,
-    disableAfterSwitching?: number,
-    stages : StageConfig[]
+    stageSwitchTransition?: number;
+    stageSwitchDelay?: number;
+    stageSwitchEasing?: string;
+    disableAfterSwitching?: number;
+    stages : StageConfig[];
 }
 
 interface Effect extends EffectConfig {
@@ -127,6 +127,10 @@ class Scroll {
 					for (let i =0;i<items.length;i++){
 						if (items[i].id === itemId){
 							(stage.items || (stage.items = [])) && stage.items.push({ ...items[i], node });
+							// init effect style
+							items[i].effects.forEach(effect => {
+								(node as HTMLElement).style[effect.property as any] = effect.start;
+							});
 						}
 					}
 				}
@@ -136,6 +140,7 @@ class Scroll {
 			stage.stageConfig.items.forEach(item => {
 				const effects = item.effects;
 				effects.forEach((effect: Effect) => {
+					// initial effect
 					if (effect.startAt == undefined) effect.startAt = 0;
 					if (effect.endAt == undefined) effect.endAt = Number(stage.stageConfig.scrollNumber);
 					// process color values
@@ -233,19 +238,24 @@ class Scroll {
 		this.handleStepChange();
 	}
 
+	hasNextStage(){
+		return true;
+	}
+
 	handleStepChange(){
 		const curStage = this.stagesProxy.activeStage as Stage;
 		const step = curStage.step as number;
 		const stageConfig = curStage.stageConfig as Stage;
 		const items = curStage.items;
 		const curIndex = this.activeStageIndex;
-
 		if (step > Number(stageConfig.scrollNumber)){
 			// change to next Stage
 			if (curIndex === this.stages.length - 1){
+				console.log(1);
 				(this.target as HTMLElement).dispatchEvent(new CustomEvent("scroll-end", {
 					detail: {}
 				}));
+				curStage.step -=1;
 				return;
 			}
 			// change
@@ -256,10 +266,11 @@ class Scroll {
 				(this.target as HTMLElement).dispatchEvent(new CustomEvent("scroll-end", {
 					detail: {}
 				}));
+				curStage.step +=1;
 				return;
 			}
 			// change
-			this.setActiveStage(this.stages[this.activeStageIndex+1].id, true);
+			this.setActiveStage(this.stages[this.activeStageIndex-1].id, true);
 		} else {
 			// change Step
 			clearTimeout(this.animatingTimeout);
@@ -267,7 +278,7 @@ class Scroll {
 			items.forEach(item => {
 				(item.node as HTMLElement).style.transition = `${ stageConfig.transition }ms ${ stageConfig.easing }`;
 				item.effects.forEach(effect => {
-					(item.node as HTMLElement).style[effect.property as any] = Scroll.getCurrentStyleValue(effect, step);
+					(item.node as HTMLElement).style[effect.property as any] = Scroll.getNextStyleValue(effect, step);
 				});
 			  });
 			this.animatingTimeout = setTimeout(() => {
@@ -300,7 +311,7 @@ class Scroll {
 		}
 	}
 
-	static getCurrentStyleValue(effect:Effect, step:number) :string{
+	static getNextStyleValue(effect:Effect, step:number) :string{
 		const { startAt, endAt, startNumbers, endNumbers, strings, isColor } = effect;
 		step = Math.min(endAt, Math.max(startAt, step));
 		let result = strings[0];
@@ -308,8 +319,7 @@ class Scroll {
 		if (startNumbers && startNumbers.length > 0) {
 		  startNumbers.forEach((startNumber, index) => {
 				if ((/rgb/).test(strings[index])) alphaIndex = index + 3;
-				let stepNumber = startNumber + (step - startAt) *
-			  (endNumbers[index] - startNumber) / (endAt - startAt);
+				let stepNumber = startNumber + (step - startAt) * (endNumbers[index] - startNumber) / (endAt - startAt);
 				if (isColor && index !== alphaIndex) stepNumber = Math.round(stepNumber);
 				result += `${ stepNumber }${ strings[index + 1] }`;
 		  });
