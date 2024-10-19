@@ -28,6 +28,8 @@
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.1",
+    "@types/color": "^3.0.6",
+    "@types/color-convert": "^2.0.4",
     "@types/node": "^22.7.6",
     "@typescript-eslint/eslint-plugin": "^8.10.0",
     "@typescript-eslint/parser": "^8.10.0",
@@ -39,6 +41,7 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
+    "color": "^4.2.3",
     "color-convert": "^2.0.1",
     "dom-walk": "^0.1.2",
     "throttle-debounce": "^5.0.2"

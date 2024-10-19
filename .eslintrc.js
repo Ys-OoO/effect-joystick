@@ -16,7 +16,7 @@ module.exports = {
 	},
 	rules: {
 		semi: "error",
-		"prefer-const": "error",
+		"prefer-const": "warn",
 		indent: ["error", "tab"],
 		"no-irregular-whitespace": "error",
 		"func-call-spacing": ["error", "never"],

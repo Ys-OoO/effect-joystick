@@ -29,3 +29,23 @@ export function walkNode<T extends ChildNode | HTMLElement>(nodes: T[] | T, cb: 
 		}
 	}
 }
+
+export function isHexColor(color: string): boolean {
+	const hexPattern = /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/;
+	return hexPattern.test(color);
+}
+
+export function isHSLColor(color: string): boolean {
+	const hslPattern = /^hsl\(\s*(\d{1,3})\s*,\s*(\d{1,3}|[0-9.]+)%\s*,\s*(\d{1,3}|[0-9.]+)%\s*\)$/;
+	return hslPattern.test(color);
+}
+
+const numberRegExp = new RegExp(/-?\d+(?:\.\d+)?/, "g");
+export function extractProperty(value:string){
+	const valueNumList = (value.match(numberRegExp) || []).map(n => Number(n));
+	const valueStrList = value.split(numberRegExp);
+	return {
+		valueNumList,
+		valueStrList,
+	};
+}
