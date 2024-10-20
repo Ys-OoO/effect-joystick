@@ -15,10 +15,11 @@
     "joystick",
     "effect-joystick"
   ],
-  "main": "index.js",
+  "main": "dist/effect-joystick.commmon.js",
   "scripts": {
     "dev": "rollup -w -c build/rollup.dev.config.ts --configPlugin typescript",
     "build:example": "rollup -c build/rollup.example.config.ts --configPlugin typescript",
+	"build": "rollup -c build/rollup.config.ts --configPlugin typescript",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },

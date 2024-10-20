@@ -6,12 +6,19 @@ import eslint from "@rollup/plugin-eslint";
 import typescript from "@rollup/plugin-typescript";
 
 const config :RollupOptions ={
-	input: "examples/demo/demo.ts",
-	output: {
-		file: "examples/demo/demo.min.js",
-		format: "cjs",
-		plugins: []
-	},
+	input: "src/index.ts",
+	output: [
+		{
+			file: "dist/effect-joystick.commmon.js",
+			format: "cjs",
+			name: "effect-joystick",
+		},
+		{
+			file: "dist/effect-joystick.umd.js",
+			format: "umd",
+			name: "effect-joystick",
+		}
+	],
 	plugins: [
 		typescript(),
 		commonjs(),
