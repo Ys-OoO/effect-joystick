@@ -1,2 +1,4 @@
-node_modules
-dist
+node_modules/
+dist/
+examples/demo/demo.min.js
+examples/demo/demo.min.js.map
