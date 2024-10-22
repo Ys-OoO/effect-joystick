@@ -1,12 +1,15 @@
 {
   "name": "effect-joystick",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Controller for special behaviors",
   "author": "ys0514@yeah.net",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Ys-OoO/effect-joystick"
+  },
+  "bin": {
+    "effect-joystick-test":"./bin/test.js"
   },
   "keywords": [
     "parallex",
